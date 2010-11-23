@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<prefwindow
+     title="FireSpox Preferences"
+     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    
+    <script type="application/x-javascript" src="firespox_options.js" />
+
+    <prefpane id="firespox-options-prefpane" label="FireSpox Preferences">
+        <preferences>
+			<preference id="firespox-speech-rate" name="extensions.firespox.speech.rate" type="int"/>
+        </preferences>
+        <vbox>
+            <vbox>
+                <label control="speech-rate" value="Speech Rate:"/>
+                <hbox>
+                    <label value="Slower"/>
+                    <scale id="speech-rate" preference="firespox-speech-rate" preference-editable="true" min="-10" max="10" width="200"/>
+                    <label value="Faster"/>
+                </hbox>
+            </vbox>
+        </vbox>
+        
+    </prefpane>
+
+</prefwindow>

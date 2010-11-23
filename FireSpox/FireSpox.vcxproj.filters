@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Grammar">
+      <UniqueIdentifier>{d315a2f8-94d5-4269-bf94-9746f4fb6208}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Firefox">
+      <UniqueIdentifier>{a43eac95-0756-4eab-838d-c309eab73d10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Firefox\chrome">
+      <UniqueIdentifier>{334eede6-f8d0-4448-8b8f-30fa4f2162dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Firefox\chrome\content">
+      <UniqueIdentifier>{706627a8-87ff-4d7c-9605-a4f5740a69a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Firefox\defaults">
+      <UniqueIdentifier>{ae0b140a-1045-47d6-9bb2-c4b6bb53906e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Firefox\defaults\preferences">
+      <UniqueIdentifier>{a73ba0b5-8d4c-400d-97c6-b7572284dcb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Firefox\components">
+      <UniqueIdentifier>{efcd6ea2-379a-4f8e-b9de-8688bbe72c54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Firefox\chrome\skin">
+      <UniqueIdentifier>{240d6212-cf91-4a61-9b35-18a14cbcac6b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="FireSpox_SAPI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FireSpox_SAPI_Module.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FireSpox_SAPI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IFireSpox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="commands.xml">
+      <Filter>Grammar</Filter>
+    </None>
+    <None Include="Dev_Readme.txt" />
+    <None Include="Firefox\chrome\content\firespox.js">
+      <Filter>Firefox\chrome\content</Filter>
+    </None>
+    <None Include="Firefox\chrome\content\firespox_overlay.xul">
+      <Filter>Firefox\chrome\content</Filter>
+    </None>
+    <None Include="Firefox\chrome\content\firespox_options.js">
+      <Filter>Firefox\chrome\content</Filter>
+    </None>
+    <None Include="Firefox\chrome\content\firespox_options.xul">
+      <Filter>Firefox\chrome\content</Filter>
+    </None>
+    <None Include="Firefox\chrome\content\firespox_overlay.js">
+      <Filter>Firefox\chrome\content</Filter>
+    </None>
+    <None Include="Firefox\defaults\preferences\prefs.js">
+      <Filter>Firefox\defaults\preferences</Filter>
+    </None>
+    <None Include="Firefox\install.rdf">
+      <Filter>Firefox</Filter>
+    </None>
+    <None Include="Firefox\chrome\content\tts_options.xul">
+      <Filter>Firefox\chrome\content</Filter>
+    </None>
+    <None Include="Firefox\chrome\content\asr_options.js">
+      <Filter>Firefox\chrome\content</Filter>
+    </None>
+    <None Include="Firefox\chrome\content\asr_options.xul">
+      <Filter>Firefox\chrome\content</Filter>
+    </None>
+    <None Include="Firefox\chrome\content\tts_options.js">
+      <Filter>Firefox\chrome\content</Filter>
+    </None>
+    <None Include="Firefox\components\IFireSpox.xpt">
+      <Filter>Firefox\components</Filter>
+    </None>
+    <None Include="Firefox\chrome\skin\extension_icon.png">
+      <Filter>Firefox\chrome\skin</Filter>
+    </None>
+    <None Include="Firefox\chrome\skin\green_ear.png">
+      <Filter>Firefox\chrome\skin</Filter>
+    </None>
+    <None Include="Firefox\chrome\skin\green_mouth.png">
+      <Filter>Firefox\chrome\skin</Filter>
+    </None>
+    <None Include="Firefox\chrome\skin\orange_ear.png">
+      <Filter>Firefox\chrome\skin</Filter>
+    </None>
+    <None Include="Firefox\chrome\skin\orange_mouth.png">
+      <Filter>Firefox\chrome\skin</Filter>
+    </None>
+    <None Include="Firefox\chrome\skin\red_ear.png">
+      <Filter>Firefox\chrome\skin</Filter>
+    </None>
+    <None Include="Firefox\chrome\skin\red_mouth.png">
+      <Filter>Firefox\chrome\skin</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="Firefox\chrome.manifest">
+      <Filter>Firefox</Filter>
+    </Manifest>
+  </ItemGroup>
+</Project>

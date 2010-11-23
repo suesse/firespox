@@ -1,0 +1,47 @@
+<!-- American English Grammar -->
+<GRAMMAR LANGID="409">
+  <DEFINE>
+    <ID NAME="VID_SPOX" VAL="100"/>
+    <!-- Browser Commands -->
+    <ID NAME="VID_BACK" VAL="201"/>
+    <ID NAME="VID_FORWARD" VAL="202"/>
+    <ID NAME="VID_REFRESH" VAL="203"/>
+    <ID NAME="VID_STOP" VAL="204"/>
+    <ID NAME="VID_HOME" VAL="205"/>
+    <ID NAME="VID_EXIT" VAL="206"/>
+    <ID NAME="VID_HISTORY" VAL="207"/>
+    <ID NAME="VID_BOOKMARKS" VAL="208"/>
+    <!-- Reader Commands -->
+    <ID NAME="VID_WAIT" VAL="301"/>
+    <ID NAME="VID_RESUME" VAL="302"/>
+    <!-- Other Commands -->
+    <ID NAME="VID_LIST" VAL="401"/>
+      <!-- List various site contents (Links, Images, etc...) -->
+    <ID NAME="VID_COMMANDS" VAL="901" />
+  </DEFINE>
+
+  <RULE ID="VID_SPOX" TOPLEVEL="ACTIVE">
+    <P>spox</P>
+    <OPT>please</OPT>
+    <OPT>go</OPT>
+    <P>
+      <RULEREF REFID="VID_COMMANDS"/>
+    </P>
+    <OPT>please</OPT>
+  </RULE>
+
+  <RULE ID="VID_COMMANDS">
+    <L PROPID="VID_COMMANDS">
+      <P VAL="VID_BACK">back</P>
+      <P VAL="VID_STOP">stop</P>
+      <P VAL="VID_STOP">cancel</P>
+      <P VAL="VID_FORWARD">forward</P>
+      <P VAL="VID_REFRESH">refresh</P>
+      <P VAL="VID_HOME">home</P>
+      <P VAL="VID_EXIT">exit</P>
+      <P VAL="VID_EXIT">quit</P>
+      <P VAL="VID_WAIT">wait</P>
+      <P VAL="VID_RESUME">resume</P>
+    </L>
+  </RULE>
+</GRAMMAR>

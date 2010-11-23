@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FireSpox", "FireSpox\FireSpox.vcxproj", "{51C2E0D9-AA9E-49C3-B687-77938DB615A4}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 2
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs21
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = FireSpox\\FireSpox.vcxproj
+		SccProjectName1 = FireSpox
+		SccLocalPath1 = FireSpox
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|.NET = Debug|.NET
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|Win32 = Debug|Win32
+		Release|.NET = Release|.NET
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{51C2E0D9-AA9E-49C3-B687-77938DB615A4}.Debug|.NET.ActiveCfg = Debug|Win32
+		{51C2E0D9-AA9E-49C3-B687-77938DB615A4}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{51C2E0D9-AA9E-49C3-B687-77938DB615A4}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{51C2E0D9-AA9E-49C3-B687-77938DB615A4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{51C2E0D9-AA9E-49C3-B687-77938DB615A4}.Debug|Win32.Build.0 = Debug|Win32
+		{51C2E0D9-AA9E-49C3-B687-77938DB615A4}.Release|.NET.ActiveCfg = Release|Win32
+		{51C2E0D9-AA9E-49C3-B687-77938DB615A4}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{51C2E0D9-AA9E-49C3-B687-77938DB615A4}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{51C2E0D9-AA9E-49C3-B687-77938DB615A4}.Release|Win32.ActiveCfg = Release|Win32
+		{51C2E0D9-AA9E-49C3-B687-77938DB615A4}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,31 @@
+/*
+*	Build Note: Requires the Gecko-SDK's xpidl to build correctly.
+*	Build Commands:
+*	 xpidl -m header -I"full\path\to\GeckoSDK\idl" IFireSpox.idl
+*	 xpidl -m typelib -I"full\path\to\GeckoSDK\idl" IFireSpox.idl 
+*/
+#include "nsISupports.idl"
+
+[scriptable, uuid(8e2a9cb1-72a9-10fa-943d-8fb157e3f9ac)]
+interface IFireSpox : nsISupports
+{
+	boolean TTS_isEnabled();
+	void TTS_Load();
+	void TTS_Speak(in wstring x, in long y);
+	void TTS_Pause();
+	void TTS_Resume();
+	void TTS_Purge();
+	void TTS_SetRate(in long x);
+	void TTS_SetVolume(in unsigned short x);
+	boolean TTS_Ready();
+	void TTS_Unload();
+
+	boolean ASR_isEnabled();
+	void ASR_Load();
+	void ASR_Pause();
+	void ASR_Resume();
+	void ASR_Unload();
+	
+	boolean hasSAPI();
+	void log(in wstring x);
+};

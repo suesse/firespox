@@ -1,0 +1,4 @@
+content		firespox					chrome/content/
+skin		firespox	classic/1.0		chrome/skin/
+
+overlay		chrome://browser/content/browser.xul	chrome://firespox/content/firespox_overlay.xul
