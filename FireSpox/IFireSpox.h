@@ -60,6 +60,9 @@ class NS_NO_VTABLE NS_SCRIPTABLE IFireSpox : public nsISupports {
   /* boolean ASR_isEnabled (); */
   NS_SCRIPTABLE NS_IMETHOD ASR_isEnabled(PRBool *_retval NS_OUTPARAM) = 0;
 
+  /* void ASR_Listen (); */
+  NS_SCRIPTABLE NS_IMETHOD ASR_Listen(void) = 0;
+
   /* void ASR_Load (); */
   NS_SCRIPTABLE NS_IMETHOD ASR_Load(void) = 0;
 
@@ -95,6 +98,7 @@ class NS_NO_VTABLE NS_SCRIPTABLE IFireSpox : public nsISupports {
   NS_SCRIPTABLE NS_IMETHOD TTS_Ready(PRBool *_retval NS_OUTPARAM); \
   NS_SCRIPTABLE NS_IMETHOD TTS_Unload(void); \
   NS_SCRIPTABLE NS_IMETHOD ASR_isEnabled(PRBool *_retval NS_OUTPARAM); \
+  NS_SCRIPTABLE NS_IMETHOD ASR_Listen(void); \
   NS_SCRIPTABLE NS_IMETHOD ASR_Load(void); \
   NS_SCRIPTABLE NS_IMETHOD ASR_Pause(void); \
   NS_SCRIPTABLE NS_IMETHOD ASR_Resume(void); \
@@ -115,6 +119,7 @@ class NS_NO_VTABLE NS_SCRIPTABLE IFireSpox : public nsISupports {
   NS_SCRIPTABLE NS_IMETHOD TTS_Ready(PRBool *_retval NS_OUTPARAM) { return _to TTS_Ready(_retval); } \
   NS_SCRIPTABLE NS_IMETHOD TTS_Unload(void) { return _to TTS_Unload(); } \
   NS_SCRIPTABLE NS_IMETHOD ASR_isEnabled(PRBool *_retval NS_OUTPARAM) { return _to ASR_isEnabled(_retval); } \
+  NS_SCRIPTABLE NS_IMETHOD ASR_Listen(void) { return _to ASR_Listen(); } \
   NS_SCRIPTABLE NS_IMETHOD ASR_Load(void) { return _to ASR_Load(); } \
   NS_SCRIPTABLE NS_IMETHOD ASR_Pause(void) { return _to ASR_Pause(); } \
   NS_SCRIPTABLE NS_IMETHOD ASR_Resume(void) { return _to ASR_Resume(); } \
@@ -135,6 +140,7 @@ class NS_NO_VTABLE NS_SCRIPTABLE IFireSpox : public nsISupports {
   NS_SCRIPTABLE NS_IMETHOD TTS_Ready(PRBool *_retval NS_OUTPARAM) { return !_to ? NS_ERROR_NULL_POINTER : _to->TTS_Ready(_retval); } \
   NS_SCRIPTABLE NS_IMETHOD TTS_Unload(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->TTS_Unload(); } \
   NS_SCRIPTABLE NS_IMETHOD ASR_isEnabled(PRBool *_retval NS_OUTPARAM) { return !_to ? NS_ERROR_NULL_POINTER : _to->ASR_isEnabled(_retval); } \
+  NS_SCRIPTABLE NS_IMETHOD ASR_Listen(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->ASR_Listen(); } \
   NS_SCRIPTABLE NS_IMETHOD ASR_Load(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->ASR_Load(); } \
   NS_SCRIPTABLE NS_IMETHOD ASR_Pause(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->ASR_Pause(); } \
   NS_SCRIPTABLE NS_IMETHOD ASR_Resume(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->ASR_Resume(); } \
@@ -236,6 +242,12 @@ NS_IMETHODIMP _MYCLASS_::TTS_Unload()
 
 /* boolean ASR_isEnabled (); */
 NS_IMETHODIMP _MYCLASS_::ASR_isEnabled(PRBool *_retval NS_OUTPARAM)
+{
+    return NS_ERROR_NOT_IMPLEMENTED;
+}
+
+/* void ASR_Listen (); */
+NS_IMETHODIMP _MYCLASS_::ASR_Listen()
 {
     return NS_ERROR_NOT_IMPLEMENTED;
 }

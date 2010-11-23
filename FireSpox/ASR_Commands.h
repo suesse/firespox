@@ -1,0 +1,13 @@
+#define VID_SPOX 100
+#define VID_BACK 201
+#define VID_FORWARD 202
+#define VID_REFRESH 203
+#define VID_STOP 204
+#define VID_HOME 205
+#define VID_EXIT 206
+#define VID_HISTORY 207
+#define VID_BOOKMARKS 208
+#define VID_WAIT 301
+#define VID_RESUME 302
+#define VID_LIST 401
+#define VID_COMMANDS 901

@@ -15,6 +15,7 @@ CComPtr<ISpRecognizer> cpEngine;
 CComPtr<ISpRecoContext> cpRecoCtx;
 CComPtr<ISpRecoGrammar> cpGram;
 bool asr_loaded = false; 
+bool asr_listening = false;
 
 /* Macro NS_IMPL_ISUPPORTS1: Implements AddRef, Release, and QueryInterface */
 NS_IMPL_ISUPPORTS1(FireSpox_SAPI, IFireSpox)
@@ -88,6 +89,7 @@ NS_IMETHODIMP FireSpox_SAPI::ASR_Load()
 		return NS_ERROR_FAILURE;
 
 	hr = cpGram->SetRuleState(0, 0, SPRS_ACTIVE);
+	asr_listening = true;
 	return hr == S_OK ? NS_OK : NS_ERROR_FAILURE;
 }
 
@@ -117,6 +119,7 @@ NS_IMETHODIMP FireSpox_SAPI::ASR_Unload()
 		cpRecoCtx.Release();
 		cpEngine.Release();
 		asr_loaded = false;
+		asr_listening = false
 		if (!tts_loaded)
 			CoUninitialize();
 	}
@@ -200,12 +203,37 @@ NS_IMETHODIMP FireSpox_SAPI::TTS_Ready(PRBool *_retval NS_OUTPARAM)
 	return NS_ERROR_NOT_INITIALIZED;
 }
 
+NS_IMETHODIMP FireSpox_SAPI::ASR_Listen()
+{
+	HRESULT hr;
+	while (asr_loaded && asr_listening)
+	{
+		while ( evt.GetFrom(cpRecoCtx) == S_OK )
+		{
+			if ( evt.eEventId != SPEI_FALSE_RECOGNITION )
+			{
+				pPhrase = evt.RecoResult();
+				hr = pPhrase->GetPhrase(&pParts);
+				hr = pPhrase->GetText(SP_GETWHOLEPHRASE, SP_GETWHOLEPHRASE, FALSE, &pwszText, 0);
+
+				/* free memory for parts no longer needed */
+				CoTaskMemFree(pParts);
+				CoTaskMemFree(pwszText);
+			}
+		}
+	}
+	return NS_OK;
+}
+
 NS_IMETHODIMP FireSpox_SAPI::ASR_Pause()
 {
-	return NS_ERROR_NOT_IMPLEMENTED;
+	asr_listening = false;
+	return NS_OK;
 }
 
 NS_IMETHODIMP FireSpox_SAPI::ASR_Resume()
 {
-	return NS_ERROR_NOT_IMPLEMENTED;
+	asr_listening = true;
+	ASR_Listen();
+	return NS_OK;
 }

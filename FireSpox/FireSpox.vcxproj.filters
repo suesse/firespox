@@ -53,6 +53,9 @@
     <ClInclude Include="IFireSpox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ASR_Commands.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="commands.xml">

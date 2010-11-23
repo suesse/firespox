@@ -5,7 +5,7 @@ var consoleService = cClasses["@mozilla.org/consoleservice;1"].getService(cInter
 var application = cClasses["@mozilla.org/fuel/application;1"].getService(cInterfaces.fuelIApplication);
 var windowWatcher = cClasses["@mozilla.org/embedcomp/window-watcher;1"].getService(cInterfaces.nsIWindowWatcher);
 
-function debug(aMessage) {
+function debug (aMessage) {
     FireSpoxExtension.log(aMessage);
 }
 
@@ -72,7 +72,23 @@ var FireSpoxExtension = {
         var top = (screen.height / 2) - (75);
         window.open("chrome://firespox/content/asr_options.xul", "Speech Recognition Options", "chrome,dialog,width=300,height=150,top=" + top + ",left=" + left);
         debug('~openASROptions | exit');
+    },
+
+    /* TODO: auto scroll? */
+    lineScroll: function (direction) {
+        if (direction == Ci.nsIDirection.down)
+            goDoCommand('cmd_scrollLineDown');
+        else 
+            goDoCommand('cmd_scrollLineUp');
+    },
+
+    pageScroll: function (direction) {
+        if (direction == Ci.nsIDirection.down)
+            goDoCommand('cmd_scrollPageDown');
+        else 
+            goDoCommand('cmd_scrollPageUp');
     }
+
 };
 
 window.addEventListener("load", function (e) { FireSpoxExtension.onLoad(); }, false);

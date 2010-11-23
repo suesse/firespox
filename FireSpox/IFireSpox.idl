@@ -21,6 +21,7 @@ interface IFireSpox : nsISupports
 	void TTS_Unload();
 
 	boolean ASR_isEnabled();
+	void ASR_Listen();
 	void ASR_Load();
 	void ASR_Pause();
 	void ASR_Resume();

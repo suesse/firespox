@@ -11,8 +11,10 @@ The FireSpox project was created with:
 
 IFireSpox.idl
 	Build Note: Requires the Gecko-SDK's xpidl to build correctly
-	Build Command: xpidl -m header -I"C:\Program Files\xulrunner-sdk\idl" IFireSpox.idl
+	Build Command: xpidl -m header -I"full\path\to\xulrunner-sdk\idl" IFireSpox.idl
 
 IFireSpox.xpt
-	Build Command: xpidl -m typelib -w -v -I"C:\Program Files\xulrunner-sdk\idl" -e IFire
-Spox.xpt IFireSpox.idl
+	Build Command: xpidl -m typelib -w -v -I"full\path\to\xulrunner-sdk\idl" -e IFireSpox.xpt IFireSpox.idl
+
+Building the speech recognition grammar requires the Microsoft Grammar Compiler (gc.exe) included with the SAPI 5 SDK:
+	Build Command: gc.exe /O "full\path\to\output\commands.cfg" /h "full\path\to\output\ASR_Commands.h" commands.xml
