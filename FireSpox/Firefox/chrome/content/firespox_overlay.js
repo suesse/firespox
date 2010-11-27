@@ -6,8 +6,6 @@ var application = cClasses["@mozilla.org/fuel/application;1"].getService(cInterf
 var windowWatcher = cClasses["@mozilla.org/embedcomp/window-watcher;1"].getService(cInterfaces.nsIWindowWatcher);
 var eventListener = cClasses["@mozilla.org/eventlistenerservice;1"].getService(cInterfaces.nsIEventListenerService);
 
-var command;
-
 function debug (aMessage) {
     FireSpoxExtension.log(aMessage);
 }
@@ -48,6 +46,7 @@ var observer = new function () {
 
     this.observe = function (subject, topic, data) {
         debug("~observer ? Data: " + data);
+        FireSpoxExtension.executeCommand(data);
     };
 
     this.register = function () {
@@ -58,13 +57,36 @@ var observer = new function () {
     this.unregister = function () {
         observerService.removeObserver(this, "BrowserCallback");
     };
-}; 
+};
+
+/* Class Thread */
+var Thread = function (func, state) {
+    this.func = func;
+    this.state = state;
+};
+
+Thread.prototype = {
+    run: function () {
+        this.func(this.state);
+    },
+
+    QueryInterface: function (iid) {
+        if (iid.equals(Components.interfaces.nsIRunnable) ||
+        iid.equals(Components.interfaces.nsISupports)) {
+            return this;
+        }
+        throw Components.results.NS_ERROR_NO_INTERFACE;
+    }
+};
 
 /* Class: FireSpoxExtension */
 var FireSpoxExtension = {
 
     spox: cClasses["@firespox.mnsu.edu/FIRESPOX_SAPI;1"].createInstance().QueryInterface(cInterfaces.IFireSpox),
     prefs: Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService).getBranch("extensions.firespox."),
+    threadMgr: Cc["@mozilla.org/thread-manager;1"].getService(Ci.nsIThreadManager),
+    mainThread: Cc["@mozilla.org/thread-manager;1"].getService().mainThread,
+
 
     isWinNT: function () {
         var os = cClasses["@mozilla.org/xre/app-info;1"].getService(Ci.nsIXULRuntime).OS;
@@ -74,6 +96,10 @@ var FireSpoxExtension = {
 
     log: function (aMessage) {
         consoleService.logStringMessage(aMessage);
+    },
+
+    runThreadASync: function (func, state) {
+        FireSpoxExtension.main.dispatch(new Thread(func, state), FiresayFirefoxExtension.mainThread.DISPATCH_NORMAL);
     },
 
     onLoad: function () {
@@ -87,7 +113,7 @@ var FireSpoxExtension = {
             /* TODO: Check prefs to determine what to actually start. */
             FireSpoxExtension.spox.TTS_Load();
             FireSpoxExtension.spox.ASR_Load();
-            FireSpoxExtension.spox.ASR_Listen(command);
+            FireSpoxExtension.spox.ASR_Listen();
 
             debug('~onLoad | loaded');
         }
@@ -122,7 +148,7 @@ var FireSpoxExtension = {
         debug('~openASROptions | exit');
     },
 
-    /* TODO: auto scroll? */
+    /* TODO: auto scroll */
     lineScroll: function (direction) {
         if (direction == Ci.nsIDirection.down)
             goDoCommand('cmd_scrollLineDown');
@@ -135,6 +161,39 @@ var FireSpoxExtension = {
             goDoCommand('cmd_scrollPageDown');
         else
             goDoCommand('cmd_scrollPageUp');
+    },
+
+    executeCommand: function (cmd) {
+        switch (cmd) {
+        case "browser_back":
+            goDoCommand('Browser:Back');
+            break;
+        case "browser_forward":
+            goDoCommand('Browser:Forward');
+            break;
+        case "browser_refresh":
+            break;
+        case "browser_stop":
+            break;
+        case "browser_home":
+            goDoCommand('Browser:Home');
+            break;
+        case "browser_exit":
+            goDoCommand('cmd_quit');
+            break;
+        case "browser_history":
+            break;
+        case "browser_bookmarks":
+            break;
+        case "browser_list":
+            break;
+        case "tts_pause":
+            FireSpoxExtension.spox.TTS_Pause();
+            break;
+        case "tts_resume":
+            FireSpoxExtension.spox.TTS_Resume();
+            break;
+        }
     }
 
 };

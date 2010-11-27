@@ -1,36 +1,110 @@
 The FireSpox project was created with:
-	Microsoft Visual Studio 2010 Version 10.0.30319.1 RTMRel
-	Gecko SDK v1.9.2.12
-	Compiler Preprocessor Definitions:
-		WIN32
-		_WINDOWS
-		_USRDLL
-		WINXP
-		WINXP_32
-		XP_WIN
-	Included Libraries:
-		xpcomglue_s.lib
-		xpcom.lib
-		nspr4.lib
-		kernel32.lib
-		user32.lib
-		gdi32.lib
-		winspool.lib
-		comdlg32.lib
-		advapi32.lib
-		shell32.lib
-		ole32.lib
-		oleaut32.lib
-		uuid.lib
-		odbc32.lib
-		odbccp32.lib
-		
+  Microsoft Visual Studio 2010 Version 10.0.30319.1 RTMRel
+  Gecko SDK v1.9.2.12
+  Compiler Preprocessor Definitions:
+    WIN32
+    _WINDOWS
+    _USRDLL
+    WINXP
+    WINXP_32
+    XP_WIN
+  Included Libraries:
+    xpcomglue_s.lib
+    xpcom.lib
+    nspr4.lib
+    kernel32.lib
+    user32.lib
+    gdi32.lib
+    winspool.lib
+    comdlg32.lib
+    advapi32.lib
+    shell32.lib
+    ole32.lib
+    oleaut32.lib
+    uuid.lib
+    odbc32.lib
+    odbccp32.lib
+______________________________________________________________________________
+                          Building the XPCOM interfaces					      
+______________________________________________________________________________
 IFireSpox.idl
-	Build Note: Requires the Gecko-SDK's xpidl to build correctly
-	Build Command: xpidl -m header -I"full\path\to\xulrunner-sdk\idl" IFireSpox.idl
+  Build Note: Requires the Gecko-SDK's xpidl to build correctly.
+  Build Command: xpidl -m header -I"path\to\xulrunner-sdk\idl" IFireSpox.idl
 
 IFireSpox.xpt
-	Build Command: xpidl -m typelib -w -v -I"full\path\to\xulrunner-sdk\idl" -e IFireSpox.xpt IFireSpox.idl
+  Build Command: xpidl -m typelib -w -v -I"full\path\to\xulrunner-sdk\idl"
+                  -e IFireSpox.xpt IFireSpox.idl
 
-Building the speech recognition grammar requires the Microsoft Grammar Compiler (gc.exe) included with the SAPI 5 SDK:
-	Build Command: gc.exe /O "full\path\to\output\commands.cfg" /h "full\path\to\output\ASR_Commands.h" commands.xml
+______________________________________________________________________________
+                           Building the speech grammar					      
+______________________________________________________________________________
+commands.cfg
+  Build Note: requires the Microsoft Grammar Compiler (gc.exe) included with
+               the SAPI 5 SDK.
+  Build Command: gc.exe /O "path\to\output\commands.cfg" 
+                  /h "full\path\to\output\ASR_Commands.h" commands.xml
+
+______________________________________________________________________________
+                         Setting up Firefox for testing                       
+______________________________________________________________________________
+1. Download and install Firefox 3*-3.6* from http://www.getfirefox.com/
+2. Create a new folder for your development profile.
+     ex. C:\user\profiles\firespox-dev
+3. Add an extensions folder to the profile folder.
+     ex. C:\user\profiles\firespox-dev\extensions
+4. In the extensions folder create a file named: firespox@firespox.dev
+5. In firespox@firespox.dev add the full path to the Firefox folder of the
+   FireSpox project.
+     ex. C:\github\firespox\FireSpox\Firefox
+6. Create a shortcut to Firefox.exe and add
+     -profile "C:\user\profiles\firespox-dev" -no-remote
+   to the end of the target and rename the shortcut to Dev-Firefox.
+     Note: '-profile' starts Firefox with the specified profile.
+     '-no-remote' allows multiple instances of Firefox to run simultaneously.
+
+*Optional, but useful steps* 
+Change the Firefox config for more friendly debugging.
+ In Dev-Firefox goto about:config and change/add the following preferences:
+  browser.dom.window.dump.enabled = true
+  dom.report_all_js_exceptions = true
+  extensions.logging.enabled = true
+  javascript.options.showInConsole = true
+  javascript.options.strict = true
+  nglayout.debug.disable_xul_cache = true
+  nglayout.debug.disable_xul_fastload = true
+
+Useful Addons:
+ Console^2
+ Dom Inspector
+
+______________________________________________________________________________
+                          FireSpox for Firefox Structure
+______________________________________________________________________________
+-Firefox
+  -chrome
+    -content
+      asr_options.js
+      firespox_options.js
+      firespox_overlay.js
+      tts_options.js
+      asr_options.xul
+      firespox_options.xul
+      firespox_overlay.xul
+      tts_options.xul
+    -skin
+      (extension images)
+  -components
+    FireSpox.dll
+    IFireSpox.xpt
+  -defaults
+    -preferences
+      pref.js
+  chrome.manifest
+  install.rdf
+______________________________________________________________________________
+                               Troubleshooting
+______________________________________________________________________________
+Problem: The FireSpox extension isn't showing up in Firefox.
+Solution: FireSpox isn't getting registered correctly with Firefox. Delete the
+          'compreg.dat' file in your profile directory to force the extensions
+          to re-register.

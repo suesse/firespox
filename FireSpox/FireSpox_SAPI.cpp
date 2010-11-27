@@ -1,4 +1,5 @@
 #include "FireSpox_SAPI.h"
+#pragma warning (disable:4099)
 
 /* TTS Vars */
 ISpVoice * pVoice;
@@ -14,11 +15,92 @@ ULONGLONG ullEvents;
 CComPtr<ISpRecognizer> cpEngine;
 CComPtr<ISpRecoContext> cpRecoCtx;
 CComPtr<ISpRecoGrammar> cpGram;
-bool asr_loaded = false; 
+bool asr_loaded = false;
 bool asr_listening = false;
-
+unsigned int asrThread;
 nsCOMPtr<nsIServiceManager> serviceManager;
-nsCOMPtr<nsIObserverService> observerService; 
+nsCOMPtr<nsIObserverService> observerService;
+
+unsigned int __stdcall ASR_Thread(LPVOID p)
+{
+	if (observerService != NULL)
+	{
+		observerService->NotifyObservers(NULL, "BrowserCallback", L"thread started");
+		/* TODO: This is for testing only...
+		DO NOT keep this!                */
+		while (asr_listening)
+		{
+			observerService->NotifyObservers(NULL, "BrowserCallback", L"thread loop");
+			WaitForSingleObject(hEvent, 10000);
+			while (evt.GetFrom(cpRecoCtx) == S_OK)
+			{
+				if (evt.eEventId != SPEI_FALSE_RECOGNITION)
+				{
+					pPhrase = evt.RecoResult();
+					pPhrase->GetPhrase(&pParts);
+					ParsePhrase(pParts);
+
+					/* free memory for parts no longer needed */
+					CoTaskMemFree(pParts);
+					CoTaskMemFree(pwszText);
+				}
+			}
+		}
+	}
+	_endthreadex(0);
+	return 1;
+}
+
+void ParsePhrase(SPPHRASE *parts)
+{
+	observerService->NotifyObservers(NULL, "BrowserCallback", L"parsing");
+	switch (parts->ullGrammarID)
+	{
+	case VID_SPOX:
+		switch (parts->LangID)
+		{
+		case VID_BACK:
+			observerService->NotifyObservers(NULL, "BrowserCallback", L"browser_back");
+			break;
+		case VID_FORWARD:
+			observerService->NotifyObservers(NULL, "BrowserCallback", L"browser_forward");
+			break;
+		case VID_REFRESH:
+			observerService->NotifyObservers(NULL, "BrowserCallback", L"browser_refresh");
+			break;
+		case VID_STOP:
+			observerService->NotifyObservers(NULL, "BrowserCallback", L"browser_stop");
+			break;
+		case VID_HOME:
+			observerService->NotifyObservers(NULL, "BrowserCallback", L"browser_home");
+			break;
+		case VID_EXIT:
+			observerService->NotifyObservers(NULL, "BrowserCallback", L"browser_exit");
+			break;
+		case VID_HISTORY:
+			observerService->NotifyObservers(NULL, "BrowserCallback", L"browser_history");
+			break;
+		case VID_BOOKMARKS:
+			observerService->NotifyObservers(NULL, "BrowserCallback", L"browser_bookmarks");
+			break;
+		case VID_WAIT:
+			observerService->NotifyObservers(NULL, "BrowserCallback", L"tts_pause");
+			break;
+		case VID_RESUME:
+			observerService->NotifyObservers(NULL, "BrowserCallback", L"tts_resume");
+			break;
+		case VID_LIST:
+			observerService->NotifyObservers(NULL, "BrowserCallback", L"browser_list");
+			break;
+		default:
+			/* secondary command was not vaild */
+			break;
+		}
+	default:
+		/* Top command was not valid */
+		break;
+	}
+}
 
 /* Macro NS_IMPL_ISUPPORTS1: Implements AddRef, Release, and QueryInterface */
 NS_IMPL_ISUPPORTS1(FireSpox_SAPI, IFireSpox)
@@ -129,11 +211,11 @@ NS_IMETHODIMP FireSpox_SAPI::ASR_Unload()
 {
 	if (asr_loaded)
 	{
+		asr_listening = false;		
 		cpGram.Release();
 		cpRecoCtx.Release();
 		cpEngine.Release();
 		asr_loaded = false;
-		asr_listening = false;
 		if (!tts_loaded)
 			CoUninitialize();
 	}
@@ -219,87 +301,25 @@ NS_IMETHODIMP FireSpox_SAPI::TTS_Ready(PRBool *_retval NS_OUTPARAM)
 
 NS_IMETHODIMP FireSpox_SAPI::ASR_Listen()
 {
-	observerService->NotifyObservers(NULL, "BrowserCallback", L"listening");
-	HRESULT hr;
-	while (asr_loaded && asr_listening)
+	if (asr_loaded)
 	{
-		while ( evt.GetFrom(cpRecoCtx) == S_OK )
-		{
-			if ( evt.eEventId != SPEI_FALSE_RECOGNITION )
-			{
-				pPhrase = evt.RecoResult();
-				hr = pPhrase->GetPhrase(&pParts);
-				ParsePhrase(pParts);
-
-				/* free memory for parts no longer needed */
-				CoTaskMemFree(pParts);
-				CoTaskMemFree(pwszText);
-			}
-		}
+		observerService->NotifyObservers(NULL, "BrowserCallback", L"listening");
+		asrThread = _beginthreadex(NULL, 0, &ASR_Thread, NULL, 0, 0);
+	
+		observerService->NotifyObservers(NULL, "BrowserCallback", L"loaded thread");
+		return NS_OK;
 	}
-	return NS_OK;
-}
-
-void FireSpox_SAPI::ParsePhrase(SPPHRASE *parts)
-{
-	observerService->NotifyObservers(NULL, "BrowserCallback", L"parsing");
-	switch (parts->ullGrammarID)
-	{
-	case VID_SPOX:
-		switch (parts->LangID)
-		{
-		case VID_BACK:
-			observerService->NotifyObservers(NULL, "BrowserCallback", L"browser_back");
-			break;
-		case VID_FORWARD:
-			observerService->NotifyObservers(NULL, "BrowserCallback", L"browser_forward");
-			break;
-		case VID_REFRESH:
-			observerService->NotifyObservers(NULL, "BrowserCallback", L"browser_refresh");
-			break;
-		case VID_STOP:
-			observerService->NotifyObservers(NULL, "BrowserCallback", L"browser_stop");
-			break;
-		case VID_HOME:
-			observerService->NotifyObservers(NULL, "BrowserCallback", L"browser_home");
-			break;
-		case VID_EXIT:
-			observerService->NotifyObservers(NULL, "BrowserCallback", L"browser_exit");
-			break;
-		case VID_HISTORY:
-			observerService->NotifyObservers(NULL, "BrowserCallback", L"browser_history");
-			break;
-		case VID_BOOKMARKS:
-			observerService->NotifyObservers(NULL, "BrowserCallback", L"browser_bookmarks");
-			break;
-		case VID_WAIT:
-			observerService->NotifyObservers(NULL, "BrowserCallback", L"tts_pause");
-			break;
-		case VID_RESUME:
-			observerService->NotifyObservers(NULL, "BrowserCallback", L"tts_resume");
-			break;
-		case VID_LIST:
-			observerService->NotifyObservers(NULL, "BrowserCallback", L"browser_list");
-			break;
-		default:
-			/* secondary command was not vaild */
-			break;
-		}
-	default:
-		/* Top command was not valid */
-		break;
-	}
+	return NS_ERROR_NOT_INITIALIZED;
 }
 
 NS_IMETHODIMP FireSpox_SAPI::ASR_Pause()
 {
-	asr_listening = false;
+	//SuspendThread(asrThread);
 	return NS_OK;
 }
 
 NS_IMETHODIMP FireSpox_SAPI::ASR_Resume()
 {
-	asr_listening = true;
-	ASR_Listen();
+	//ResumeThread(asrThread);
 	return NS_OK;
 }
