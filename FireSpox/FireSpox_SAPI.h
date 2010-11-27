@@ -3,8 +3,17 @@
 
 #include <windows.h>
 #include <sphelper.h>
+
+#include "nsCOMPtr.h"
+#include "nsIComponentManager.h"
 #include "nsIGenericFactory.h"
+#include "nsIObserverService.h"
+#include "nsIServiceManager.h"
+#include "xpccomponents.h"
+
 #include "IFireSpox.h"
+#include "ASR_Commands.h"
+#include "resource.h"
 
 #define MY_COMPONENT_CONTRACTID "@firespox.mnsu.edu/FIRESPOX_SAPI;1"
 #define MY_COMPONENT_CLASSNAME "FIRESPOX SAPI"
@@ -21,7 +30,7 @@ public:
 	FireSpox_SAPI();
 private:
 	~FireSpox_SAPI();
-
+	void ParsePhrase(SPPHRASE *pParts);
 };
 
 #endif /* __FIRESPOX_SAPI_H__ */

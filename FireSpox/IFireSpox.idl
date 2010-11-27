@@ -27,6 +27,6 @@ interface IFireSpox : nsISupports
 	void ASR_Resume();
 	void ASR_Unload();
 	
-	boolean hasSAPI();
+	boolean HasSAPI();
 	void log(in wstring x);
 };

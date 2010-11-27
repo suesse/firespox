@@ -78,7 +78,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;FIRESPOX_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;FIRESPOX_EXPORTS;XP_WIN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>
@@ -102,12 +102,13 @@
     <ClInclude Include="ASR_Commands.h" />
     <ClInclude Include="FireSpox_SAPI.h" />
     <ClInclude Include="IFireSpox.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="commands.cfg" />
     <None Include="commands.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Dev_Readme.txt" />
     <None Include="Firefox\chrome\content\asr_options.js" />
     <None Include="Firefox\chrome\content\asr_options.xul" />
     <None Include="Firefox\chrome\content\firespox.js" />
@@ -130,6 +131,9 @@
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="Firefox\chrome.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="FireSpox.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

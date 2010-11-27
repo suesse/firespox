@@ -56,12 +56,14 @@
     <ClInclude Include="ASR_Commands.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="commands.xml">
       <Filter>Grammar</Filter>
     </None>
-    <None Include="Dev_Readme.txt" />
     <None Include="Firefox\chrome\content\firespox.js">
       <Filter>Firefox\chrome\content</Filter>
     </None>
@@ -119,10 +121,18 @@
     <None Include="Firefox\chrome\skin\red_mouth.png">
       <Filter>Firefox\chrome\skin</Filter>
     </None>
+    <None Include="commands.cfg">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="Firefox\chrome.manifest">
       <Filter>Firefox</Filter>
     </Manifest>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="FireSpox.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

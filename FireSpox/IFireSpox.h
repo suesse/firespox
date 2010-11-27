@@ -75,7 +75,7 @@ class NS_NO_VTABLE NS_SCRIPTABLE IFireSpox : public nsISupports {
   /* void ASR_Unload (); */
   NS_SCRIPTABLE NS_IMETHOD ASR_Unload(void) = 0;
 
-  /* boolean hasSAPI (); */
+  /* boolean HasSAPI (); */
   NS_SCRIPTABLE NS_IMETHOD HasSAPI(PRBool *_retval NS_OUTPARAM) = 0;
 
   /* void log (in wstring x); */
@@ -276,7 +276,7 @@ NS_IMETHODIMP _MYCLASS_::ASR_Unload()
     return NS_ERROR_NOT_IMPLEMENTED;
 }
 
-/* boolean hasSAPI (); */
+/* boolean HasSAPI (); */
 NS_IMETHODIMP _MYCLASS_::HasSAPI(PRBool *_retval NS_OUTPARAM)
 {
     return NS_ERROR_NOT_IMPLEMENTED;
