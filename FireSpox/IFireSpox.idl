@@ -1,32 +1,31 @@
 /*
 *	Build Note: Requires the Gecko-SDK's xpidl to build correctly.
 *	Build Commands:
-*	 xpidl -m header -I"full\path\to\GeckoSDK\idl" IFireSpox.idl
-*	 xpidl -m typelib -I"full\path\to\GeckoSDK\idl" IFireSpox.idl 
+*	 xpidl -m header -I"\GeckoSDK\idl" IFireSpox.idl
+*	 xpidl -m typelib -w -v -I"\GeckoSDK\idl" -e IFirespox.xpt IFireSpox.idl
 */
 #include "nsISupports.idl"
 
 [scriptable, uuid(8e2a9cb1-72a9-10fa-943d-8fb157e3f9ac)]
 interface IFireSpox : nsISupports
 {
-	boolean TTS_isEnabled();
-	void TTS_Load();
-	void TTS_Speak(in wstring x, in long y);
-	void TTS_Pause();
-	void TTS_Resume();
-	void TTS_Purge();
-	void TTS_SetRate(in long x);
-	void TTS_SetVolume(in unsigned short x);
-	boolean TTS_Ready();
-	void TTS_Unload();
+	readonly attribute boolean ASR_Enabled;
+	readonly attribute boolean TTS_Enabled;
+	readonly attribute boolean TTS_Ready;
 
-	boolean ASR_isEnabled();
-	void ASR_Listen();
-	void ASR_Load();
+	void Load(in boolean enableTTS, in boolean enableASR);
+	void Log(in wstring x);
+	void Start();
+	void Stop();
+	boolean SupportedPlatform();
+
 	void ASR_Pause();
 	void ASR_Resume();
-	void ASR_Unload();
-	
-	boolean HasSAPI();
-	void log(in wstring x);
+
+	void TTS_Pause();
+	void TTS_Purge();
+	void TTS_Resume();
+	void TTS_SetRate(in long x);
+	void TTS_SetVolume(in unsigned short x);
+	void TTS_Speak(in wstring x, in long y);
 };

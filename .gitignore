@@ -30,3 +30,5 @@ _ReSharper*/
 *.sdf
 *.opensdf
 ipch*/
+# ignore FireSpox.dll that is placed in components for testing
+FireSpox.dll

@@ -1,5 +1,4 @@
 ﻿<?xml version="1.0"?>
-<?xml-stylesheet href="chrome://firesay/skin/firesay.css" type="text/css"?>
 <overlay id="FireSpox" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script type="application/x-javascript" src="firespox_overlay.js" />
   <statusbar id="status-bar">

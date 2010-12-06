@@ -103,6 +103,7 @@
     <ClInclude Include="FireSpox_SAPI.h" />
     <ClInclude Include="IFireSpox.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="sapi_common.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="commands.cfg" />

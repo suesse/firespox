@@ -27,44 +27,29 @@ class NS_NO_VTABLE NS_SCRIPTABLE IFireSpox : public nsISupports {
 
   NS_DECLARE_STATIC_IID_ACCESSOR(IFIRESPOX_IID)
 
-  /* boolean TTS_isEnabled (); */
-  NS_SCRIPTABLE NS_IMETHOD TTS_isEnabled(PRBool *_retval NS_OUTPARAM) = 0;
+  /* readonly attribute boolean ASR_Enabled; */
+  NS_SCRIPTABLE NS_IMETHOD GetASR_Enabled(PRBool *aASR_Enabled) = 0;
 
-  /* void TTS_Load (); */
-  NS_SCRIPTABLE NS_IMETHOD TTS_Load(void) = 0;
+  /* readonly attribute boolean TTS_Enabled; */
+  NS_SCRIPTABLE NS_IMETHOD GetTTS_Enabled(PRBool *aTTS_Enabled) = 0;
 
-  /* void TTS_Speak (in wstring x, in long y); */
-  NS_SCRIPTABLE NS_IMETHOD TTS_Speak(const PRUnichar *x, PRInt32 y) = 0;
+  /* readonly attribute boolean TTS_Ready; */
+  NS_SCRIPTABLE NS_IMETHOD GetTTS_Ready(PRBool *aTTS_Ready) = 0;
 
-  /* void TTS_Pause (); */
-  NS_SCRIPTABLE NS_IMETHOD TTS_Pause(void) = 0;
+  /* void Load (in boolean enableTTS, in boolean enableASR); */
+  NS_SCRIPTABLE NS_IMETHOD Load(PRBool enableTTS, PRBool enableASR) = 0;
 
-  /* void TTS_Resume (); */
-  NS_SCRIPTABLE NS_IMETHOD TTS_Resume(void) = 0;
+  /* void Log (in wstring x); */
+  NS_SCRIPTABLE NS_IMETHOD Log(const PRUnichar *x) = 0;
 
-  /* void TTS_Purge (); */
-  NS_SCRIPTABLE NS_IMETHOD TTS_Purge(void) = 0;
+  /* void Start (); */
+  NS_SCRIPTABLE NS_IMETHOD Start(void) = 0;
 
-  /* void TTS_SetRate (in long x); */
-  NS_SCRIPTABLE NS_IMETHOD TTS_SetRate(PRInt32 x) = 0;
+  /* void Stop (); */
+  NS_SCRIPTABLE NS_IMETHOD Stop(void) = 0;
 
-  /* void TTS_SetVolume (in unsigned short x); */
-  NS_SCRIPTABLE NS_IMETHOD TTS_SetVolume(PRUint16 x) = 0;
-
-  /* boolean TTS_Ready (); */
-  NS_SCRIPTABLE NS_IMETHOD TTS_Ready(PRBool *_retval NS_OUTPARAM) = 0;
-
-  /* void TTS_Unload (); */
-  NS_SCRIPTABLE NS_IMETHOD TTS_Unload(void) = 0;
-
-  /* boolean ASR_isEnabled (); */
-  NS_SCRIPTABLE NS_IMETHOD ASR_isEnabled(PRBool *_retval NS_OUTPARAM) = 0;
-
-  /* void ASR_Listen (); */
-  NS_SCRIPTABLE NS_IMETHOD ASR_Listen(void) = 0;
-
-  /* void ASR_Load (); */
-  NS_SCRIPTABLE NS_IMETHOD ASR_Load(void) = 0;
+  /* boolean SupportedPlatform (); */
+  NS_SCRIPTABLE NS_IMETHOD SupportedPlatform(PRBool *_retval NS_OUTPARAM) = 0;
 
   /* void ASR_Pause (); */
   NS_SCRIPTABLE NS_IMETHOD ASR_Pause(void) = 0;
@@ -72,14 +57,23 @@ class NS_NO_VTABLE NS_SCRIPTABLE IFireSpox : public nsISupports {
   /* void ASR_Resume (); */
   NS_SCRIPTABLE NS_IMETHOD ASR_Resume(void) = 0;
 
-  /* void ASR_Unload (); */
-  NS_SCRIPTABLE NS_IMETHOD ASR_Unload(void) = 0;
+  /* void TTS_Pause (); */
+  NS_SCRIPTABLE NS_IMETHOD TTS_Pause(void) = 0;
 
-  /* boolean HasSAPI (); */
-  NS_SCRIPTABLE NS_IMETHOD HasSAPI(PRBool *_retval NS_OUTPARAM) = 0;
+  /* void TTS_Purge (); */
+  NS_SCRIPTABLE NS_IMETHOD TTS_Purge(void) = 0;
 
-  /* void log (in wstring x); */
-  NS_SCRIPTABLE NS_IMETHOD Log(const PRUnichar *x) = 0;
+  /* void TTS_Resume (); */
+  NS_SCRIPTABLE NS_IMETHOD TTS_Resume(void) = 0;
+
+  /* void TTS_SetRate (in long x); */
+  NS_SCRIPTABLE NS_IMETHOD TTS_SetRate(PRInt32 x) = 0;
+
+  /* void TTS_SetVolume (in unsigned short x); */
+  NS_SCRIPTABLE NS_IMETHOD TTS_SetVolume(PRUint16 x) = 0;
+
+  /* void TTS_Speak (in wstring x, in long y); */
+  NS_SCRIPTABLE NS_IMETHOD TTS_Speak(const PRUnichar *x, PRInt32 y) = 0;
 
 };
 
@@ -87,66 +81,60 @@ class NS_NO_VTABLE NS_SCRIPTABLE IFireSpox : public nsISupports {
 
 /* Use this macro when declaring classes that implement this interface. */
 #define NS_DECL_IFIRESPOX \
-  NS_SCRIPTABLE NS_IMETHOD TTS_isEnabled(PRBool *_retval NS_OUTPARAM); \
-  NS_SCRIPTABLE NS_IMETHOD TTS_Load(void); \
-  NS_SCRIPTABLE NS_IMETHOD TTS_Speak(const PRUnichar *x, PRInt32 y); \
-  NS_SCRIPTABLE NS_IMETHOD TTS_Pause(void); \
-  NS_SCRIPTABLE NS_IMETHOD TTS_Resume(void); \
-  NS_SCRIPTABLE NS_IMETHOD TTS_Purge(void); \
-  NS_SCRIPTABLE NS_IMETHOD TTS_SetRate(PRInt32 x); \
-  NS_SCRIPTABLE NS_IMETHOD TTS_SetVolume(PRUint16 x); \
-  NS_SCRIPTABLE NS_IMETHOD TTS_Ready(PRBool *_retval NS_OUTPARAM); \
-  NS_SCRIPTABLE NS_IMETHOD TTS_Unload(void); \
-  NS_SCRIPTABLE NS_IMETHOD ASR_isEnabled(PRBool *_retval NS_OUTPARAM); \
-  NS_SCRIPTABLE NS_IMETHOD ASR_Listen(void); \
-  NS_SCRIPTABLE NS_IMETHOD ASR_Load(void); \
+  NS_SCRIPTABLE NS_IMETHOD GetASR_Enabled(PRBool *aASR_Enabled); \
+  NS_SCRIPTABLE NS_IMETHOD GetTTS_Enabled(PRBool *aTTS_Enabled); \
+  NS_SCRIPTABLE NS_IMETHOD GetTTS_Ready(PRBool *aTTS_Ready); \
+  NS_SCRIPTABLE NS_IMETHOD Load(PRBool enableTTS, PRBool enableASR); \
+  NS_SCRIPTABLE NS_IMETHOD Log(const PRUnichar *x); \
+  NS_SCRIPTABLE NS_IMETHOD Start(void); \
+  NS_SCRIPTABLE NS_IMETHOD Stop(void); \
+  NS_SCRIPTABLE NS_IMETHOD SupportedPlatform(PRBool *_retval NS_OUTPARAM); \
   NS_SCRIPTABLE NS_IMETHOD ASR_Pause(void); \
   NS_SCRIPTABLE NS_IMETHOD ASR_Resume(void); \
-  NS_SCRIPTABLE NS_IMETHOD ASR_Unload(void); \
-  NS_SCRIPTABLE NS_IMETHOD HasSAPI(PRBool *_retval NS_OUTPARAM); \
-  NS_SCRIPTABLE NS_IMETHOD Log(const PRUnichar *x); 
+  NS_SCRIPTABLE NS_IMETHOD TTS_Pause(void); \
+  NS_SCRIPTABLE NS_IMETHOD TTS_Purge(void); \
+  NS_SCRIPTABLE NS_IMETHOD TTS_Resume(void); \
+  NS_SCRIPTABLE NS_IMETHOD TTS_SetRate(PRInt32 x); \
+  NS_SCRIPTABLE NS_IMETHOD TTS_SetVolume(PRUint16 x); \
+  NS_SCRIPTABLE NS_IMETHOD TTS_Speak(const PRUnichar *x, PRInt32 y); 
 
 /* Use this macro to declare functions that forward the behavior of this interface to another object. */
 #define NS_FORWARD_IFIRESPOX(_to) \
-  NS_SCRIPTABLE NS_IMETHOD TTS_isEnabled(PRBool *_retval NS_OUTPARAM) { return _to TTS_isEnabled(_retval); } \
-  NS_SCRIPTABLE NS_IMETHOD TTS_Load(void) { return _to TTS_Load(); } \
-  NS_SCRIPTABLE NS_IMETHOD TTS_Speak(const PRUnichar *x, PRInt32 y) { return _to TTS_Speak(x, y); } \
-  NS_SCRIPTABLE NS_IMETHOD TTS_Pause(void) { return _to TTS_Pause(); } \
-  NS_SCRIPTABLE NS_IMETHOD TTS_Resume(void) { return _to TTS_Resume(); } \
-  NS_SCRIPTABLE NS_IMETHOD TTS_Purge(void) { return _to TTS_Purge(); } \
-  NS_SCRIPTABLE NS_IMETHOD TTS_SetRate(PRInt32 x) { return _to TTS_SetRate(x); } \
-  NS_SCRIPTABLE NS_IMETHOD TTS_SetVolume(PRUint16 x) { return _to TTS_SetVolume(x); } \
-  NS_SCRIPTABLE NS_IMETHOD TTS_Ready(PRBool *_retval NS_OUTPARAM) { return _to TTS_Ready(_retval); } \
-  NS_SCRIPTABLE NS_IMETHOD TTS_Unload(void) { return _to TTS_Unload(); } \
-  NS_SCRIPTABLE NS_IMETHOD ASR_isEnabled(PRBool *_retval NS_OUTPARAM) { return _to ASR_isEnabled(_retval); } \
-  NS_SCRIPTABLE NS_IMETHOD ASR_Listen(void) { return _to ASR_Listen(); } \
-  NS_SCRIPTABLE NS_IMETHOD ASR_Load(void) { return _to ASR_Load(); } \
+  NS_SCRIPTABLE NS_IMETHOD GetASR_Enabled(PRBool *aASR_Enabled) { return _to GetASR_Enabled(aASR_Enabled); } \
+  NS_SCRIPTABLE NS_IMETHOD GetTTS_Enabled(PRBool *aTTS_Enabled) { return _to GetTTS_Enabled(aTTS_Enabled); } \
+  NS_SCRIPTABLE NS_IMETHOD GetTTS_Ready(PRBool *aTTS_Ready) { return _to GetTTS_Ready(aTTS_Ready); } \
+  NS_SCRIPTABLE NS_IMETHOD Load(PRBool enableTTS, PRBool enableASR) { return _to Load(enableTTS, enableASR); } \
+  NS_SCRIPTABLE NS_IMETHOD Log(const PRUnichar *x) { return _to Log(x); } \
+  NS_SCRIPTABLE NS_IMETHOD Start(void) { return _to Start(); } \
+  NS_SCRIPTABLE NS_IMETHOD Stop(void) { return _to Stop(); } \
+  NS_SCRIPTABLE NS_IMETHOD SupportedPlatform(PRBool *_retval NS_OUTPARAM) { return _to SupportedPlatform(_retval); } \
   NS_SCRIPTABLE NS_IMETHOD ASR_Pause(void) { return _to ASR_Pause(); } \
   NS_SCRIPTABLE NS_IMETHOD ASR_Resume(void) { return _to ASR_Resume(); } \
-  NS_SCRIPTABLE NS_IMETHOD ASR_Unload(void) { return _to ASR_Unload(); } \
-  NS_SCRIPTABLE NS_IMETHOD HasSAPI(PRBool *_retval NS_OUTPARAM) { return _to HasSAPI(_retval); } \
-  NS_SCRIPTABLE NS_IMETHOD Log(const PRUnichar *x) { return _to Log(x); } 
+  NS_SCRIPTABLE NS_IMETHOD TTS_Pause(void) { return _to TTS_Pause(); } \
+  NS_SCRIPTABLE NS_IMETHOD TTS_Purge(void) { return _to TTS_Purge(); } \
+  NS_SCRIPTABLE NS_IMETHOD TTS_Resume(void) { return _to TTS_Resume(); } \
+  NS_SCRIPTABLE NS_IMETHOD TTS_SetRate(PRInt32 x) { return _to TTS_SetRate(x); } \
+  NS_SCRIPTABLE NS_IMETHOD TTS_SetVolume(PRUint16 x) { return _to TTS_SetVolume(x); } \
+  NS_SCRIPTABLE NS_IMETHOD TTS_Speak(const PRUnichar *x, PRInt32 y) { return _to TTS_Speak(x, y); } 
 
 /* Use this macro to declare functions that forward the behavior of this interface to another object in a safe way. */
 #define NS_FORWARD_SAFE_IFIRESPOX(_to) \
-  NS_SCRIPTABLE NS_IMETHOD TTS_isEnabled(PRBool *_retval NS_OUTPARAM) { return !_to ? NS_ERROR_NULL_POINTER : _to->TTS_isEnabled(_retval); } \
-  NS_SCRIPTABLE NS_IMETHOD TTS_Load(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->TTS_Load(); } \
-  NS_SCRIPTABLE NS_IMETHOD TTS_Speak(const PRUnichar *x, PRInt32 y) { return !_to ? NS_ERROR_NULL_POINTER : _to->TTS_Speak(x, y); } \
-  NS_SCRIPTABLE NS_IMETHOD TTS_Pause(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->TTS_Pause(); } \
-  NS_SCRIPTABLE NS_IMETHOD TTS_Resume(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->TTS_Resume(); } \
-  NS_SCRIPTABLE NS_IMETHOD TTS_Purge(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->TTS_Purge(); } \
-  NS_SCRIPTABLE NS_IMETHOD TTS_SetRate(PRInt32 x) { return !_to ? NS_ERROR_NULL_POINTER : _to->TTS_SetRate(x); } \
-  NS_SCRIPTABLE NS_IMETHOD TTS_SetVolume(PRUint16 x) { return !_to ? NS_ERROR_NULL_POINTER : _to->TTS_SetVolume(x); } \
-  NS_SCRIPTABLE NS_IMETHOD TTS_Ready(PRBool *_retval NS_OUTPARAM) { return !_to ? NS_ERROR_NULL_POINTER : _to->TTS_Ready(_retval); } \
-  NS_SCRIPTABLE NS_IMETHOD TTS_Unload(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->TTS_Unload(); } \
-  NS_SCRIPTABLE NS_IMETHOD ASR_isEnabled(PRBool *_retval NS_OUTPARAM) { return !_to ? NS_ERROR_NULL_POINTER : _to->ASR_isEnabled(_retval); } \
-  NS_SCRIPTABLE NS_IMETHOD ASR_Listen(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->ASR_Listen(); } \
-  NS_SCRIPTABLE NS_IMETHOD ASR_Load(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->ASR_Load(); } \
+  NS_SCRIPTABLE NS_IMETHOD GetASR_Enabled(PRBool *aASR_Enabled) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetASR_Enabled(aASR_Enabled); } \
+  NS_SCRIPTABLE NS_IMETHOD GetTTS_Enabled(PRBool *aTTS_Enabled) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetTTS_Enabled(aTTS_Enabled); } \
+  NS_SCRIPTABLE NS_IMETHOD GetTTS_Ready(PRBool *aTTS_Ready) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetTTS_Ready(aTTS_Ready); } \
+  NS_SCRIPTABLE NS_IMETHOD Load(PRBool enableTTS, PRBool enableASR) { return !_to ? NS_ERROR_NULL_POINTER : _to->Load(enableTTS, enableASR); } \
+  NS_SCRIPTABLE NS_IMETHOD Log(const PRUnichar *x) { return !_to ? NS_ERROR_NULL_POINTER : _to->Log(x); } \
+  NS_SCRIPTABLE NS_IMETHOD Start(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->Start(); } \
+  NS_SCRIPTABLE NS_IMETHOD Stop(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->Stop(); } \
+  NS_SCRIPTABLE NS_IMETHOD SupportedPlatform(PRBool *_retval NS_OUTPARAM) { return !_to ? NS_ERROR_NULL_POINTER : _to->SupportedPlatform(_retval); } \
   NS_SCRIPTABLE NS_IMETHOD ASR_Pause(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->ASR_Pause(); } \
   NS_SCRIPTABLE NS_IMETHOD ASR_Resume(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->ASR_Resume(); } \
-  NS_SCRIPTABLE NS_IMETHOD ASR_Unload(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->ASR_Unload(); } \
-  NS_SCRIPTABLE NS_IMETHOD HasSAPI(PRBool *_retval NS_OUTPARAM) { return !_to ? NS_ERROR_NULL_POINTER : _to->HasSAPI(_retval); } \
-  NS_SCRIPTABLE NS_IMETHOD Log(const PRUnichar *x) { return !_to ? NS_ERROR_NULL_POINTER : _to->Log(x); } 
+  NS_SCRIPTABLE NS_IMETHOD TTS_Pause(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->TTS_Pause(); } \
+  NS_SCRIPTABLE NS_IMETHOD TTS_Purge(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->TTS_Purge(); } \
+  NS_SCRIPTABLE NS_IMETHOD TTS_Resume(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->TTS_Resume(); } \
+  NS_SCRIPTABLE NS_IMETHOD TTS_SetRate(PRInt32 x) { return !_to ? NS_ERROR_NULL_POINTER : _to->TTS_SetRate(x); } \
+  NS_SCRIPTABLE NS_IMETHOD TTS_SetVolume(PRUint16 x) { return !_to ? NS_ERROR_NULL_POINTER : _to->TTS_SetVolume(x); } \
+  NS_SCRIPTABLE NS_IMETHOD TTS_Speak(const PRUnichar *x, PRInt32 y) { return !_to ? NS_ERROR_NULL_POINTER : _to->TTS_Speak(x, y); } 
 
 #if 0
 /* Use the code below as a template for the implementation class for this interface. */
@@ -180,80 +168,50 @@ _MYCLASS_::~_MYCLASS_()
   /* destructor code */
 }
 
-/* boolean TTS_isEnabled (); */
-NS_IMETHODIMP _MYCLASS_::TTS_isEnabled(PRBool *_retval NS_OUTPARAM)
+/* readonly attribute boolean ASR_Enabled; */
+NS_IMETHODIMP _MYCLASS_::GetASR_Enabled(PRBool *aASR_Enabled)
 {
     return NS_ERROR_NOT_IMPLEMENTED;
 }
 
-/* void TTS_Load (); */
-NS_IMETHODIMP _MYCLASS_::TTS_Load()
+/* readonly attribute boolean TTS_Enabled; */
+NS_IMETHODIMP _MYCLASS_::GetTTS_Enabled(PRBool *aTTS_Enabled)
 {
     return NS_ERROR_NOT_IMPLEMENTED;
 }
 
-/* void TTS_Speak (in wstring x, in long y); */
-NS_IMETHODIMP _MYCLASS_::TTS_Speak(const PRUnichar *x, PRInt32 y)
+/* readonly attribute boolean TTS_Ready; */
+NS_IMETHODIMP _MYCLASS_::GetTTS_Ready(PRBool *aTTS_Ready)
 {
     return NS_ERROR_NOT_IMPLEMENTED;
 }
 
-/* void TTS_Pause (); */
-NS_IMETHODIMP _MYCLASS_::TTS_Pause()
+/* void Load (in boolean enableTTS, in boolean enableASR); */
+NS_IMETHODIMP _MYCLASS_::Load(PRBool enableTTS, PRBool enableASR)
 {
     return NS_ERROR_NOT_IMPLEMENTED;
 }
 
-/* void TTS_Resume (); */
-NS_IMETHODIMP _MYCLASS_::TTS_Resume()
+/* void Log (in wstring x); */
+NS_IMETHODIMP _MYCLASS_::Log(const PRUnichar *x)
 {
     return NS_ERROR_NOT_IMPLEMENTED;
 }
 
-/* void TTS_Purge (); */
-NS_IMETHODIMP _MYCLASS_::TTS_Purge()
+/* void Start (); */
+NS_IMETHODIMP _MYCLASS_::Start()
 {
     return NS_ERROR_NOT_IMPLEMENTED;
 }
 
-/* void TTS_SetRate (in long x); */
-NS_IMETHODIMP _MYCLASS_::TTS_SetRate(PRInt32 x)
+/* void Stop (); */
+NS_IMETHODIMP _MYCLASS_::Stop()
 {
     return NS_ERROR_NOT_IMPLEMENTED;
 }
 
-/* void TTS_SetVolume (in unsigned short x); */
-NS_IMETHODIMP _MYCLASS_::TTS_SetVolume(PRUint16 x)
-{
-    return NS_ERROR_NOT_IMPLEMENTED;
-}
-
-/* boolean TTS_Ready (); */
-NS_IMETHODIMP _MYCLASS_::TTS_Ready(PRBool *_retval NS_OUTPARAM)
-{
-    return NS_ERROR_NOT_IMPLEMENTED;
-}
-
-/* void TTS_Unload (); */
-NS_IMETHODIMP _MYCLASS_::TTS_Unload()
-{
-    return NS_ERROR_NOT_IMPLEMENTED;
-}
-
-/* boolean ASR_isEnabled (); */
-NS_IMETHODIMP _MYCLASS_::ASR_isEnabled(PRBool *_retval NS_OUTPARAM)
-{
-    return NS_ERROR_NOT_IMPLEMENTED;
-}
-
-/* void ASR_Listen (); */
-NS_IMETHODIMP _MYCLASS_::ASR_Listen()
-{
-    return NS_ERROR_NOT_IMPLEMENTED;
-}
-
-/* void ASR_Load (); */
-NS_IMETHODIMP _MYCLASS_::ASR_Load()
+/* boolean SupportedPlatform (); */
+NS_IMETHODIMP _MYCLASS_::SupportedPlatform(PRBool *_retval NS_OUTPARAM)
 {
     return NS_ERROR_NOT_IMPLEMENTED;
 }
@@ -270,20 +228,38 @@ NS_IMETHODIMP _MYCLASS_::ASR_Resume()
     return NS_ERROR_NOT_IMPLEMENTED;
 }
 
-/* void ASR_Unload (); */
-NS_IMETHODIMP _MYCLASS_::ASR_Unload()
+/* void TTS_Pause (); */
+NS_IMETHODIMP _MYCLASS_::TTS_Pause()
 {
     return NS_ERROR_NOT_IMPLEMENTED;
 }
 
-/* boolean HasSAPI (); */
-NS_IMETHODIMP _MYCLASS_::HasSAPI(PRBool *_retval NS_OUTPARAM)
+/* void TTS_Purge (); */
+NS_IMETHODIMP _MYCLASS_::TTS_Purge()
 {
     return NS_ERROR_NOT_IMPLEMENTED;
 }
 
-/* void log (in wstring x); */
-NS_IMETHODIMP _MYCLASS_::Log(const PRUnichar *x)
+/* void TTS_Resume (); */
+NS_IMETHODIMP _MYCLASS_::TTS_Resume()
+{
+    return NS_ERROR_NOT_IMPLEMENTED;
+}
+
+/* void TTS_SetRate (in long x); */
+NS_IMETHODIMP _MYCLASS_::TTS_SetRate(PRInt32 x)
+{
+    return NS_ERROR_NOT_IMPLEMENTED;
+}
+
+/* void TTS_SetVolume (in unsigned short x); */
+NS_IMETHODIMP _MYCLASS_::TTS_SetVolume(PRUint16 x)
+{
+    return NS_ERROR_NOT_IMPLEMENTED;
+}
+
+/* void TTS_Speak (in wstring x, in long y); */
+NS_IMETHODIMP _MYCLASS_::TTS_Speak(const PRUnichar *x, PRInt32 y)
 {
     return NS_ERROR_NOT_IMPLEMENTED;
 }
