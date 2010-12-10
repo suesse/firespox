@@ -8,10 +8,12 @@
 
 #include "nsCOMPtr.h"
 #include "nsIComponentManager.h"
+#include "nsIDOMWindowInternal.h"
 #include "nsIGenericFactory.h"
 #include "nsIObserverService.h"
 #include "nsIServiceManager.h"
 #include "nsIThreadManager.h"
+#include "nsIWindowMediator.h"
 #include "nsThreadUtils.h"
 #include "xpccomponents.h"
 

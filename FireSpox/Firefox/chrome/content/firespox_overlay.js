@@ -7,6 +7,8 @@ var windowWatcher = cClasses["@mozilla.org/embedcomp/window-watcher;1"].getServi
 var eventListener = cClasses["@mozilla.org/eventlistenerservice;1"].getService(cInterfaces.nsIEventListenerService);
 var threadMgr = cClasses["@mozilla.org/thread-manager;1"].getService(cInterfaces.nsIThreadManager);
 var mainThread = cClasses["@mozilla.org/thread-manager;1"].getService().mainThread;
+var spox = cClasses["@firespox.mnsu.edu/FIRESPOX_SAPI;1"].createInstance().QueryInterface(cInterfaces.IFireSpox);
+var spoxThread = threadMgr.newThread(0);
 
 function debug (aMessage) {
     FireSpoxExtension.log(aMessage);
@@ -17,10 +19,10 @@ var observer = new function () {
     var observerService;
 
     this.init = function () {
-        debug("~observer | initializing");
+        //debug("~observer | initializing");
         observerService = cClasses["@mozilla.org/observer-service;1"].getService(cInterfaces.nsIObserverService);
         this.register();
-        debug("~observer | done initializing");
+        //debug("~observer | done initializing");
     };
 
     this.destroy = function () {
@@ -49,7 +51,7 @@ var Thread = function () { };
 Thread.prototype = {
     run: function () {
         debug('~Thread.prototype | spox.start');
-        FireSpoxExtension.spox.Start();
+        spox.Start();
         debug('~Thread.prototype | spox.done');
     },
 
@@ -72,7 +74,7 @@ Thread.prototype = {
 /* Class: FireSpoxExtension */
 var FireSpoxExtension = {
 
-    spox: cClasses["@firespox.mnsu.edu/FIRESPOX_SAPI;1"].createInstance().QueryInterface(cInterfaces.IFireSpox),
+
     prefs: Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService).getBranch("extensions.firespox."),
 
     isWinNT: function () {
@@ -92,15 +94,14 @@ var FireSpoxExtension = {
     onLoad: function () {
         debug('~onLoad | enter');
         if (FireSpoxExtension.isWinNT()) {
-            /* TODO: check FireSpoxExtension.spox.HasSAPI() */
+            /* TODO: check spox.HasSAPI() */
             observer.init();
 
             /* TODO: Check prefs to determine what to actually start. */
-            FireSpoxExtension.spox.Load(true, true);
+            spox.Load(true, true);
             debug('~onLoad | dispatching main thread');
-            var thread = threadMgr.newThread(0);
-            thread.dispatch(new Thread(), cInterfaces.nsIThread.DISPATCH_NORMAL);
 
+            spoxThread.dispatch(new Thread(), cInterfaces.nsIThread.DISPATCH_NORMAL);
         }
         else {
             debug('~onLoad | platform not supported, exiting...');
@@ -112,8 +113,8 @@ var FireSpoxExtension = {
     onUnload: function () {
         debug('~onUnload | enter');
         /* TODO: Save Prefs */
-        FireSpoxExtension.spox.Stop();
-        debug('~onUnload | exit');
+        spoxThread.shutdown();
+        spox.Stop();
     }, /* end onUnload */
 
     openTTSOptions: function () {
@@ -172,10 +173,10 @@ var FireSpoxExtension = {
             case "browser_list":
                 break;
             case "tts_pause":
-                FireSpoxExtension.spox.TTS_Pause();
+                spox.TTS_Pause();
                 break;
             case "tts_resume":
-                FireSpoxExtension.spox.TTS_Resume();
+                spox.TTS_Resume();
                 break;
         }
     }

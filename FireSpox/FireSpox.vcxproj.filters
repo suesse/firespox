@@ -59,9 +59,6 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sapi_common.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="commands.xml">
@@ -127,6 +124,7 @@
     <None Include="commands.cfg">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\README" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="Firefox\chrome.manifest">

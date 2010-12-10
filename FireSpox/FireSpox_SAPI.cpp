@@ -2,7 +2,7 @@
 
 #include<iostream>
 
-HWND hwnd;
+//HWND hwndFireFox;
 
 /* TTS Vars */
 ISpVoice * pVoice;
@@ -24,7 +24,9 @@ bool asr_listening = false;
 unsigned int asrThread;
 nsCOMPtr<nsIServiceManager> serviceManager;
 nsCOMPtr<nsIObserverService> observerService;
-nsIThread *mainThread;
+nsCOMPtr<nsIWindowMediator> windowMediator;
+nsIDOMWindowInternal *currentBrowserWindow;
+//nsIThread *mainThread;
 
 /* Macro NS_IMPL_ISUPPORTS1: Implements AddRef, Release, and QueryInterface */
 NS_IMPL_ISUPPORTS1(FireSpox_SAPI, IFireSpox)
@@ -65,27 +67,14 @@ NS_IMETHODIMP FireSpox_SAPI::GetASR_Enabled(PRBool *rtn)
 
 NS_IMETHODIMP FireSpox_SAPI::Load(PRBool loadTTS, PRBool loadASR)
 {
-	static char szAppName[] = "FireSpox_DLL";
-	WNDCLASS wndclass;
-	wndclass.style = CS_GLOBALCLASS;
-	wndclass.lpfnWndProc = SPWndProc;
-	wndclass.cbClsExtra = 0;
-	wndclass.cbWndExtra = 0;
-	wndclass.hInstance = NULL;
-	wndclass.hIcon = NULL;
-	wndclass.hCursor = NULL;
-	wndclass.hbrBackground = NULL;
-	wndclass.lpszMenuName = NULL;
-	wndclass.lpszClassName = szAppName;;
-
-	RegisterClass(&wndclass);
-
-	CreateWindow(szAppName, NULL, NULL, 0, 0, 0, 0, 
-		HWND_MESSAGE, NULL, NULL, NULL);
-
-	NS_GetMainThread(&mainThread);
 
 	NS_GetServiceManager(getter_AddRefs(serviceManager));
+
+	serviceManager->GetServiceByContractID(
+		"@mozilla.org/appshell/window-mediator;1",
+		NS_GET_IID(nsIWindowMediator),
+		getter_AddRefs(windowMediator));
+
 	serviceManager->GetServiceByContractID(
 		"@mozilla.org/observer-service;1",
 		NS_GET_IID(nsIObserverService),
@@ -116,7 +105,6 @@ NS_IMETHODIMP FireSpox_SAPI::Load(PRBool loadTTS, PRBool loadASR)
 
 NS_IMETHODIMP FireSpox_SAPI::Start()
 {
-	
 	observerService->NotifyObservers(NULL, "BrowserCallback", L"spox | listening...");
 	bool st;
 	while (st = GetMessage(&msg, NULL, 0, 0) != 0)
@@ -156,11 +144,53 @@ LRESULT ProcessRecoEvent()
 					std::wcout << "No recognition" << std::endl;
 				else
 				{
+					const SPPHRASEPROPERTY *prop;
+					SPPHRASERULE rule;
 					pPhrase = recoEvent.RecoResult();
 					pPhrase->GetPhrase(&pParts);
-					pPhrase->GetText(SP_GETWHOLEPHRASE, SP_GETWHOLEPHRASE, FALSE, &pwszText, 0); //(get from beginning, get all parts)
-					pVoice->Speak(pwszText, 0, NULL);
-					std::wcout << pwszText << " (" << pParts->Rule.Confidence << ") " << std::endl;
+										
+					rule = pParts->Rule;
+					if (VID_COMMANDS == rule.ulId)
+					{
+						prop = pParts->pProperties;
+						windowMediator->GetMostRecentWindow(L"navigator:browser", &currentBrowserWindow);
+						switch (prop->ulId)
+						{
+						case VID_BACK:
+							/* TODO: Check if possible to go back */
+							currentBrowserWindow->Back();
+							break;
+						case VID_FORWARD:
+							/* TODO: Check if possible to go forward */
+							currentBrowserWindow->Forward();
+							break;
+						case VID_REFRESH:
+							break;
+						case VID_STOP:
+							currentBrowserWindow->Stop();
+							break;
+						case VID_HOME:
+							currentBrowserWindow->Home();
+							break;
+						case VID_EXIT:
+							currentBrowserWindow->Close();
+							break;
+						case VID_HISTORY:
+							break;
+						case VID_BOOKMARKS:
+							break;
+						case VID_WAIT:
+							//FireSpox_SAPI::TTS_Pause();
+							break;
+						case VID_RESUME:
+							//FireSpox_SAPI::TTS_Resume();
+							break;
+						case VID_LIST:
+							break;
+						case VID_COMMANDS:
+							break;
+						}
+					}
 
 					CoTaskMemFree(pParts); // free memory for parts we no longer need.
 					CoTaskMemFree(pwszText);
@@ -195,9 +225,6 @@ HRESULT FireSpox_SAPI::TTS_Load()
 /* Initialize Speech Recognition */
 HRESULT FireSpox_SAPI::ASR_Load()
 {
-	observerService->NotifyObservers(
-		NULL, "BrowserCallback", L"spox | ASR_Loading");
-
 	if (FAILED(cpEngine.CoCreateInstance(CLSID_SpSharedRecognizer)))
 		return E_FAIL;
 
@@ -220,12 +247,15 @@ HRESULT FireSpox_SAPI::ASR_Load()
 
 	/* TODO: Load grammar rules from resource */
 	/*hr = cpGram->LoadCmdFromResource(NULL, MAKEINTRESOURCEW(IDR_ASR_GRAMMAR1), L"ASR_GRAMMAR", MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL), SPLO_DYNAMIC);*/
-	if (FAILED(cpGram->LoadCmdFromFile(L"C:\\Documents and Settings\\dale\\My Documents\\Visual Studio 2010\\Projects\\play_firespox\\FireSpox\\commands.cfg", SPLO_STATIC)))
+	if (FAILED(cpGram->LoadCmdFromFile(L"C:\\Documents and Settings\\dale\\My Documents\\github\\firespox\\FireSpox\\commands.cfg", SPLO_STATIC)))
 		return E_FAIL;
 	
 	//if (FAILED(cpGram->SetRuleIdState(0, SPRS_ACTIVE)))
 	if (FAILED(cpGram->SetRuleState(0, 0, SPRS_ACTIVE)))
 		return E_FAIL;
+
+	observerService->NotifyObservers(
+		NULL, "BrowserCallback", L"spox | ASR_Loaded");
 
 	return S_OK;
 }

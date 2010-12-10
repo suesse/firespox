@@ -20,18 +20,20 @@
     <ID NAME="VID_COMMANDS" VAL="901" />
   </DEFINE>
 
+<!--
   <RULE ID="VID_SPOX" TOPLEVEL="ACTIVE">
     <P>spox</P>
     <OPT>please</OPT>
     <OPT>go</OPT>
     <P>
-      <RULEREF REFID="VID_COMMANDS"/>
+      <RULEREF NAME="commands" REFID="VID_COMMANDS"/>
     </P>
     <OPT>please</OPT>
   </RULE>
+-->
 
-  <RULE ID="VID_COMMANDS">
-    <L PROPID="VID_COMMANDS">
+  <RULE ID="VID_COMMANDS" TOPLEVEL="ACTIVE">
+    <L PROPNAME="cmd_value" PROPID="VID_COMMANDS">
       <P VAL="VID_BACK">back</P>
       <P VAL="VID_STOP">stop</P>
       <P VAL="VID_STOP">cancel</P>
