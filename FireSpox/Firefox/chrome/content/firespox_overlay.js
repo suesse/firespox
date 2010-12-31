@@ -32,7 +32,6 @@ var observer = new function () {
 
     this.observe = function (subject, topic, data) {
         debug("~observer ? Data: " + data);
-        //FireSpoxExtension.executeCommand(data);
     };
 
     this.register = function () {
@@ -45,35 +44,8 @@ var observer = new function () {
     };
 };
 
-/* Class Thread */
-var Thread = function () { };
-
-Thread.prototype = {
-    run: function () {
-        debug('~Thread.prototype | spox.start');
-        spox.Start();
-        debug('~Thread.prototype | spox.done');
-    },
-
-    QueryInterface: function (iid) {
-        if (iid.equals(Components.interfaces.nsIRunnable) ||
-        iid.equals(Components.interfaces.nsISupports)) {
-            return this;
-        }
-        throw Components.results.NS_ERROR_NO_INTERFACE;
-    }
-};
-
-//FireSpoxTask = {
-//    run: function () {
-//        debug("~FireSpoxTask | start");
-//        FireSpoxExtension.spox.Start();
-//    }
-//}
-
 /* Class: FireSpoxExtension */
 var FireSpoxExtension = {
-
 
     prefs: Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService).getBranch("extensions.firespox."),
 
@@ -98,10 +70,7 @@ var FireSpoxExtension = {
             observer.init();
 
             /* TODO: Check prefs to determine what to actually start. */
-            spox.Load(true, true);
-            debug('~onLoad | dispatching main thread');
-
-            spoxThread.dispatch(new Thread(), cInterfaces.nsIThread.DISPATCH_NORMAL);
+            spox.Start(false, true);            
         }
         else {
             debug('~onLoad | platform not supported, exiting...');
@@ -111,9 +80,7 @@ var FireSpoxExtension = {
     }, /* end onLoad */
 
     onUnload: function () {
-        debug('~onUnload | enter');
         /* TODO: Save Prefs */
-        spoxThread.shutdown();
         spox.Stop();
     }, /* end onUnload */
 
@@ -127,6 +94,7 @@ var FireSpoxExtension = {
 
     openASROptions: function () {
         debug('~openASROptions | enter');
+        spox.TTS_Speak("opening options", 0);
         var left = (screen.width / 2) - (150);
         var top = (screen.height / 2) - (75);
         window.open("chrome://firespox/content/asr_options.xul", "Speech Recognition Options", "chrome,dialog,width=300,height=150,top=" + top + ",left=" + left);
@@ -146,39 +114,6 @@ var FireSpoxExtension = {
             goDoCommand('cmd_scrollPageDown');
         else
             goDoCommand('cmd_scrollPageUp');
-    },
-
-    executeCommand: function (cmd) {
-        switch (cmd) {
-            case "browser_back":
-                goDoCommand('Browser:Back');
-                break;
-            case "browser_forward":
-                goDoCommand('Browser:Forward');
-                break;
-            case "browser_refresh":
-                break;
-            case "browser_stop":
-                break;
-            case "browser_home":
-                goDoCommand('Browser:Home');
-                break;
-            case "browser_exit":
-                goDoCommand('cmd_quit');
-                break;
-            case "browser_history":
-                break;
-            case "browser_bookmarks":
-                break;
-            case "browser_list":
-                break;
-            case "tts_pause":
-                spox.TTS_Pause();
-                break;
-            case "tts_resume":
-                spox.TTS_Resume();
-                break;
-        }
     }
 
 };

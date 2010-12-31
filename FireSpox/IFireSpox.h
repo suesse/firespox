@@ -36,14 +36,11 @@ class NS_NO_VTABLE NS_SCRIPTABLE IFireSpox : public nsISupports {
   /* readonly attribute boolean TTS_Ready; */
   NS_SCRIPTABLE NS_IMETHOD GetTTS_Ready(PRBool *aTTS_Ready) = 0;
 
-  /* void Load (in boolean enableTTS, in boolean enableASR); */
-  NS_SCRIPTABLE NS_IMETHOD Load(PRBool enableTTS, PRBool enableASR) = 0;
-
   /* void Log (in wstring x); */
   NS_SCRIPTABLE NS_IMETHOD Log(const PRUnichar *x) = 0;
 
-  /* void Start (); */
-  NS_SCRIPTABLE NS_IMETHOD Start(void) = 0;
+  /* void Start (in boolean enableTTS, in boolean enableASR); */
+  NS_SCRIPTABLE NS_IMETHOD Start(PRBool enableTTS, PRBool enableASR) = 0;
 
   /* void Stop (); */
   NS_SCRIPTABLE NS_IMETHOD Stop(void) = 0;
@@ -84,9 +81,8 @@ class NS_NO_VTABLE NS_SCRIPTABLE IFireSpox : public nsISupports {
   NS_SCRIPTABLE NS_IMETHOD GetASR_Enabled(PRBool *aASR_Enabled); \
   NS_SCRIPTABLE NS_IMETHOD GetTTS_Enabled(PRBool *aTTS_Enabled); \
   NS_SCRIPTABLE NS_IMETHOD GetTTS_Ready(PRBool *aTTS_Ready); \
-  NS_SCRIPTABLE NS_IMETHOD Load(PRBool enableTTS, PRBool enableASR); \
   NS_SCRIPTABLE NS_IMETHOD Log(const PRUnichar *x); \
-  NS_SCRIPTABLE NS_IMETHOD Start(void); \
+  NS_SCRIPTABLE NS_IMETHOD Start(PRBool enableTTS, PRBool enableASR); \
   NS_SCRIPTABLE NS_IMETHOD Stop(void); \
   NS_SCRIPTABLE NS_IMETHOD SupportedPlatform(PRBool *_retval NS_OUTPARAM); \
   NS_SCRIPTABLE NS_IMETHOD ASR_Pause(void); \
@@ -103,9 +99,8 @@ class NS_NO_VTABLE NS_SCRIPTABLE IFireSpox : public nsISupports {
   NS_SCRIPTABLE NS_IMETHOD GetASR_Enabled(PRBool *aASR_Enabled) { return _to GetASR_Enabled(aASR_Enabled); } \
   NS_SCRIPTABLE NS_IMETHOD GetTTS_Enabled(PRBool *aTTS_Enabled) { return _to GetTTS_Enabled(aTTS_Enabled); } \
   NS_SCRIPTABLE NS_IMETHOD GetTTS_Ready(PRBool *aTTS_Ready) { return _to GetTTS_Ready(aTTS_Ready); } \
-  NS_SCRIPTABLE NS_IMETHOD Load(PRBool enableTTS, PRBool enableASR) { return _to Load(enableTTS, enableASR); } \
   NS_SCRIPTABLE NS_IMETHOD Log(const PRUnichar *x) { return _to Log(x); } \
-  NS_SCRIPTABLE NS_IMETHOD Start(void) { return _to Start(); } \
+  NS_SCRIPTABLE NS_IMETHOD Start(PRBool enableTTS, PRBool enableASR) { return _to Start(enableTTS, enableASR); } \
   NS_SCRIPTABLE NS_IMETHOD Stop(void) { return _to Stop(); } \
   NS_SCRIPTABLE NS_IMETHOD SupportedPlatform(PRBool *_retval NS_OUTPARAM) { return _to SupportedPlatform(_retval); } \
   NS_SCRIPTABLE NS_IMETHOD ASR_Pause(void) { return _to ASR_Pause(); } \
@@ -122,9 +117,8 @@ class NS_NO_VTABLE NS_SCRIPTABLE IFireSpox : public nsISupports {
   NS_SCRIPTABLE NS_IMETHOD GetASR_Enabled(PRBool *aASR_Enabled) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetASR_Enabled(aASR_Enabled); } \
   NS_SCRIPTABLE NS_IMETHOD GetTTS_Enabled(PRBool *aTTS_Enabled) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetTTS_Enabled(aTTS_Enabled); } \
   NS_SCRIPTABLE NS_IMETHOD GetTTS_Ready(PRBool *aTTS_Ready) { return !_to ? NS_ERROR_NULL_POINTER : _to->GetTTS_Ready(aTTS_Ready); } \
-  NS_SCRIPTABLE NS_IMETHOD Load(PRBool enableTTS, PRBool enableASR) { return !_to ? NS_ERROR_NULL_POINTER : _to->Load(enableTTS, enableASR); } \
   NS_SCRIPTABLE NS_IMETHOD Log(const PRUnichar *x) { return !_to ? NS_ERROR_NULL_POINTER : _to->Log(x); } \
-  NS_SCRIPTABLE NS_IMETHOD Start(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->Start(); } \
+  NS_SCRIPTABLE NS_IMETHOD Start(PRBool enableTTS, PRBool enableASR) { return !_to ? NS_ERROR_NULL_POINTER : _to->Start(enableTTS, enableASR); } \
   NS_SCRIPTABLE NS_IMETHOD Stop(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->Stop(); } \
   NS_SCRIPTABLE NS_IMETHOD SupportedPlatform(PRBool *_retval NS_OUTPARAM) { return !_to ? NS_ERROR_NULL_POINTER : _to->SupportedPlatform(_retval); } \
   NS_SCRIPTABLE NS_IMETHOD ASR_Pause(void) { return !_to ? NS_ERROR_NULL_POINTER : _to->ASR_Pause(); } \
@@ -186,20 +180,14 @@ NS_IMETHODIMP _MYCLASS_::GetTTS_Ready(PRBool *aTTS_Ready)
     return NS_ERROR_NOT_IMPLEMENTED;
 }
 
-/* void Load (in boolean enableTTS, in boolean enableASR); */
-NS_IMETHODIMP _MYCLASS_::Load(PRBool enableTTS, PRBool enableASR)
-{
-    return NS_ERROR_NOT_IMPLEMENTED;
-}
-
 /* void Log (in wstring x); */
 NS_IMETHODIMP _MYCLASS_::Log(const PRUnichar *x)
 {
     return NS_ERROR_NOT_IMPLEMENTED;
 }
 
-/* void Start (); */
-NS_IMETHODIMP _MYCLASS_::Start()
+/* void Start (in boolean enableTTS, in boolean enableASR); */
+NS_IMETHODIMP _MYCLASS_::Start(PRBool enableTTS, PRBool enableASR)
 {
     return NS_ERROR_NOT_IMPLEMENTED;
 }

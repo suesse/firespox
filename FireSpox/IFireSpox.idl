@@ -13,9 +13,8 @@ interface IFireSpox : nsISupports
 	readonly attribute boolean TTS_Enabled;
 	readonly attribute boolean TTS_Ready;
 
-	void Load(in boolean enableTTS, in boolean enableASR);
 	void Log(in wstring x);
-	void Start();
+	void Start(in boolean enableTTS, in boolean enableASR);
 	void Stop();
 	boolean SupportedPlatform();
 
